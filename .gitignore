@@ -1,0 +1,80 @@
+# =========================
+# Kratos Project .gitignore
+# =========================
+
+# Build output
+bin/
+dist/
+build/
+tmp/
+
+# Go binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Coverage
+coverage.out
+.coverprofile
+
+# Go workspace
+go.work
+go.work.sum
+
+# Go modules cache (local only)
+pkg/mod/
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Local config
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Kratos Wire generated
+**/wire_gen.go
+
+# Proto generated files
+*.pb.go
+*.pb.validate.go
+*.pb.gw.go
+*.swagger.json
+openapi.json
+openapi.yaml
+
+# Air hot reload
+.air.toml
+
+# Temporary
+*.tmp
+*.bak
+*~
+
+# Mac
+.AppleDouble
+.LSOverride

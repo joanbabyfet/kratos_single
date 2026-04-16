@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package api.client.user.v1;
+
+option go_package = "kratos_single/api/client/user/v1;userv1";
+
+import "google/api/annotations.proto";
+
+service User {
+  // 注册
+  rpc Register (RegisterReq) returns (RegisterReply) {
+    option (google.api.http) = {
+      post: "/v1/api/register"
+      body: "*"
+    };
+  };
+
+  // 登录
+  rpc Login (LoginReq) returns (LoginReply) {
+    option (google.api.http) = {
+      post: "/v1/api/login"
+      body: "*"
+    };
+  };
+
+  // 个人资料修改
+  rpc UpdateProfile (UpdateProfileReq) returns (UpdateProfileReply) {
+    option (google.api.http) = {
+      post: "/v1/api/profile"
+      body: "*"
+    };
+  };
+
+  // 修改密码
+  rpc SetPassword (SetPasswordReq) returns (SetPasswordReply) {
+    option (google.api.http) = {
+      post: "/v1/api/set_password"
+      body: "*"
+    };
+  };
+
+  // 用户详情
+  rpc GetUser (GetUserReq) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/v1/api/get_userinfo"
+    };
+  };
+}
+
+// ==================== Register ====================
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  string avatar = 3;
+  string realname = 4;
+  int32 sex = 5;
+  string email = 6;
+  string phone_code = 7;
+  string phone = 8;
+  string address = 9;
+}
+
+message RegisterReply {
+  string id = 1;
+}
+
+// ==================== Login ====================
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+  string code = 3;
+  string key = 4;
+}
+
+message LoginReply {
+  string id = 1;
+  int32 origin = 2;
+  string username = 3;
+  string avatar = 4;
+  string realname = 5;
+  int32 sex = 6;
+  string email = 7;
+  string phone_code = 8;
+  string phone = 9;
+  string address = 10;
+  int32 role_id = 11;
+  string reg_ip = 12;
+  int32 login_time = 13;
+  string login_ip = 14;
+  string login_country = 15;
+  string language = 16;
+  string token = 17;
+  int32 status = 18;
+  int32 create_time = 19;
+}
+
+// ==================== UpdateProfile ====================
+
+message UpdateProfileReq {
+  string id = 1;
+  string avatar = 2;
+  string realname = 3;
+  int32 sex = 4;
+  string email = 5;
+  string phone_code = 6;
+  string phone = 7;
+  string address = 8;
+}
+
+message UpdateProfileReply {}
+
+// ==================== SetPassword ====================
+
+message SetPasswordReq {
+  string id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message SetPasswordReply {}
+
+// ==================== GetUser ====================
+
+message GetUserReq {
+  string id = 1;
+}
+
+message GetUserReply {
+  string id = 1;
+  int32 origin = 2;
+  string username = 3;
+  string avatar = 4;
+  string realname = 5;
+  int32 sex = 6;
+  string email = 7;
+  string phone_code = 8;
+  string phone = 9;
+  string address = 10;
+  int32 role_id = 11;
+  string reg_ip = 12;
+  int32 login_time = 13;
+  string login_ip = 14;
+  string login_country = 15;
+  string language = 16;
+  int32 status = 17;
+  int32 create_time = 18;
+}

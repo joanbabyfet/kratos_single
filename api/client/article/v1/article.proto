@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package api.client.article.v1;
+
+option go_package = "kratos_single/api/client/article/v1;articlev1";
+
+import "google/api/annotations.proto";
+
+// ==================== Service ====================
+service Article {
+
+  // 详情, 推荐统一：/v1/端/模块/动作
+  rpc GetArticle (GetArticleReq) returns (GetArticleReply) {
+    option (google.api.http) = {
+      get: "/v1/api/article/detail"
+    };
+  }
+
+  // 首页文章列表（无 total）
+  rpc GetHomeArticleList (GetHomeArticleListReq) returns (GetHomeArticleListReply) {
+    option (google.api.http) = {
+      get: "/v1/api/home_article"
+    };
+  }
+
+  // 列表（分页）
+  rpc GetArticleList (GetArticleListReq) returns (GetArticleListReply) {
+    option (google.api.http) = {
+      get: "/v1/api/article"
+    };
+  }
+}
+
+// ==================== Detail ====================
+
+message GetArticleReq {
+  int64 id = 1;
+}
+
+message GetArticleReply {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string info = 4;
+  string content = 5;
+  string img = 6;
+  string author = 7;
+  string extra = 8;
+  int32 sort = 9;
+  int32 status = 10;
+}
+
+// ==================== List ====================
+
+message GetArticleListReq {
+  string title = 1;
+  int32 catid = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ArticleItem {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string info = 4;
+  string content = 5;
+  string img = 6;
+  string author = 7;
+  string extra = 8;
+  int32 sort = 9;
+  int32 status = 10;
+}
+
+message GetArticleListReply {
+  repeated ArticleItem list = 1;
+  int64 total = 2;
+}
+
+message GetHomeArticleListReq {
+  int32 limit = 1;
+}
+
+message GetHomeArticleListReply {
+  repeated ArticleItem list = 1;
+}

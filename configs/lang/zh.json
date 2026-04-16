@@ -1,0 +1,9 @@
+{
+  "ParamError": "参数错误",
+  "OperateSuccess": "操作成功",
+  "InvalidTitle": "标题不能为空",
+  "InvalidUsername": "用户名不能为空",
+  "InvalidPhone": "手机号不能为空",
+  "InvalidEmail": "邮箱不能为空",
+  "InvalidPassword": "密码不能为空"
+}
