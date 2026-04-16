@@ -183,4 +183,4 @@ make all
 
 ## License
 
-[MIT License](https://github.com/joanbabyfet/kratos_single/blob/master/LICENSE)
+[MIT License](https://github.com/joanbabyfet/kratos_single/blob/main/LICENSE)
