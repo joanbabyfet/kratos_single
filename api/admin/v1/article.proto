@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package api.admin.article.v1;
+package api.admin.v1;
 
-option go_package = "kratos_single/api/admin/article/v1;adminarticlev1";
+option go_package = "kratos_single/api/admin/v1;adminv1";
 
 import "google/api/annotations.proto";
 

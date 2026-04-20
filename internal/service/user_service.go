@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	v1 "kratos_single/api/client/user/v1"
+	v1 "kratos_single/api/client/v1"
 	"kratos_single/internal/biz"
 	"kratos_single/internal/pkg/auth"
 

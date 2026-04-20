@@ -1,9 +1,9 @@
 package server
 
 import (
-	adminarticlev1 "kratos_single/api/admin/article/v1"
-	articlev1 "kratos_single/api/client/article/v1"
-	userv1 "kratos_single/api/client/user/v1"
+	adminv1 "kratos_single/api/admin/v1"
+	v1 "kratos_single/api/client/v1"
+	commonv1 "kratos_single/api/common/v1"
 	"kratos_single/internal/conf"
 	"kratos_single/internal/middleware"
 	"kratos_single/internal/service"
@@ -18,6 +18,7 @@ func NewHTTPServer(c *conf.Server,
 	article *service.ArticleService,
 	adminArticle *service.AdminArticleService,
 	user *service.UserService,
+	upload *service.CommonService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
@@ -37,8 +38,12 @@ func NewHTTPServer(c *conf.Server,
 	}
 	srv := http.NewServer(opts...)
 	// 注册 HTTP 路由 （注册多个服务）
-	articlev1.RegisterArticleHTTPServer(srv, article)
-	adminarticlev1.RegisterAdminArticleHTTPServer(srv, adminArticle)
-	userv1.RegisterUserHTTPServer(srv, user)
+	v1.RegisterArticleHTTPServer(srv, article)
+	adminv1.RegisterAdminArticleHTTPServer(srv, adminArticle)
+	commonv1.RegisterUploadHTTPServer(srv, upload)
+	v1.RegisterUserHTTPServer(srv, user)
+
+
+	
 	return srv
 }

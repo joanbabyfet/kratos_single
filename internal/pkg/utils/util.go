@@ -8,6 +8,8 @@ import (
 	"io"
 	"time"
 
+	mrand "math/rand"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -78,4 +80,12 @@ func DateToUnix(str string) int {
 		return 0
 	}
 	return int(t.Unix())
+}
+
+func GenFileName(ext string) string {
+	r := mrand.New(mrand.NewSource(time.Now().UnixNano()))
+	randNum := fmt.Sprintf("%d", r.Intn(9000)+1000)
+
+	hash := md5.Sum([]byte(time.Now().Format("20060102150405") + randNum))
+	return fmt.Sprintf("%x", hash) + ext
 }

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package api.common.v1;
+
+option go_package = "kratos_single/api/common/v1;commonv1";
+
+import "google/api/annotations.proto";
+
+service Upload {
+  // 上传文件
+  rpc UploadFile (UploadReq) returns (UploadReply) {
+    option (google.api.http) = {
+      post: "/v1/media/upload"
+      body: "*"
+    };
+  }
+}
+
+message UploadReq {
+  bytes file = 1;          // 文件二进制
+  string filename = 2;     // 原文件名
+  string dir = 3;          // image/avatar/article
+  int32 thumb_w = 4;
+  int32 thumb_h = 5;
+}
+
+message UploadReply {
+  string real_name = 1;
+  string file_name = 2;
+  string file_link = 3;
+}

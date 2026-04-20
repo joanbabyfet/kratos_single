@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	v1 "kratos_single/api/client/article/v1"
+	v1 "kratos_single/api/client/v1"
 	"kratos_single/internal/biz"
 
 	"github.com/jinzhu/copier"
