@@ -11,14 +11,13 @@ import (
 var whiteList = map[string]struct{}{
 	"/api.client.v1.User/Login":    {},
 	"/api.client.v1.User/Register": {},
-	"/api.admin.v1.Admin/Login":    {},
 }
 
 // 返回 true = 走 Auth
 // 返回 false = 不走 Auth
 func WhiteListMatcher() func(ctx context.Context, operation string) bool {
 	return func(ctx context.Context, operation string) bool {
-
+		
 		// operation 类似: /api.user.v1.User/Login
 		// HTTP path 可取 transport
 

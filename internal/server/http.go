@@ -20,6 +20,7 @@ func NewHTTPServer(c *conf.Server,
 	adminAd *service.AdminAdService,
 	user *service.UserService,
 	ad *service.AdService,
+	admin *service.AdminService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
@@ -31,7 +32,7 @@ func NewHTTPServer(c *conf.Server,
 			selector.Server(middleware.AuthMiddleware()).
 			Match(middleware.WhiteListMatcher()). //白名单
 			Build(),
-
+				
 			//所有 admin 接口校验 admin 权限
 			selector.Server(middleware.AdminAuthMiddleware()).
 			Match(middleware.AdminMatcher()).
@@ -52,6 +53,7 @@ func NewHTTPServer(c *conf.Server,
 	v1.RegisterArticleHTTPServer(srv, article)
 	adminv1.RegisterAdminArticleHTTPServer(srv, adminArticle)
 	adminv1.RegisterAdminAdHTTPServer(srv, adminAd)
+	adminv1.RegisterAdminHTTPServer(srv, admin)
 	v1.RegisterUserHTTPServer(srv, user)
 	v1.RegisterAdHTTPServer(srv, ad)
 	

@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package api.admin.v1;
+
+option go_package = "kratos_single/api/admin/v1;adminv1";
+
+import "google/api/annotations.proto";
+
+service Admin {
+  // 注册
+  rpc Register (RegisterReq) returns (RegisterReply) {
+    option (google.api.http) = {
+      post: "/admin/register"
+      body: "*"
+    };
+  };
+
+  // 登录
+  rpc Login (LoginReq) returns (LoginReply) {
+    option (google.api.http) = {
+      post: "/admin/login"
+      body: "*"
+    };
+  };
+
+  // 个人资料修改
+  rpc UpdateProfile (UpdateProfileReq) returns (UpdateProfileReply) {
+    option (google.api.http) = {
+      post: "/admin/profile"
+      body: "*"
+    };
+  };
+
+  // 修改密码
+  rpc SetPassword (SetPasswordReq) returns (SetPasswordReply) {
+    option (google.api.http) = {
+      post: "/admin/set_password"
+      body: "*"
+    };
+  };
+
+  // 用户详情
+  rpc GetUser (GetUserReq) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/admin/get_userinfo"
+    };
+  };
+}
+
+// ==================== Register ====================
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+  string realname = 3;
+  int32 sex = 4;
+  string email = 5;
+}
+
+message RegisterReply {
+  string id = 1;
+}
+
+// ==================== Login ====================
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginReply {
+  string id = 1;
+  string username = 2;
+  string realname = 3;
+  int32 sex = 4;
+  string email = 5;
+  int32 role_id = 6;
+  string reg_ip = 7;
+  int32 login_time = 8;
+  string login_ip = 9;
+  string login_country = 10;
+  string token = 11;
+  int32 status = 12;
+  int32 create_time = 13;
+}
+
+// ==================== UpdateProfile ====================
+
+message UpdateProfileReq {
+  string id = 1;
+  string realname = 2;
+  int32 sex = 3;
+  string email = 4;
+}
+
+message UpdateProfileReply {}
+
+// ==================== SetPassword ====================
+
+message SetPasswordReq {
+  string id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message SetPasswordReply {}
+
+// ==================== GetUser ====================
+
+message GetUserReq {
+  string id = 1;
+}
+
+message GetUserReply {
+  string id = 1;
+  string username = 2;
+  string realname = 3;
+  int32 sex = 4;
+  string email = 5;
+  int32 role_id = 6;
+  string reg_ip = 7;
+  int32 login_time = 8;
+  string login_ip = 9;
+  string login_country = 10;
+  int32 status = 11;
+  int32 create_time = 12;
+}
