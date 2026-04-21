@@ -3,7 +3,6 @@ package server
 import (
 	adminv1 "kratos_single/api/admin/v1"
 	v1 "kratos_single/api/client/v1"
-	commonv1 "kratos_single/api/common/v1"
 	"kratos_single/internal/conf"
 	"kratos_single/internal/middleware"
 	"kratos_single/internal/service"
@@ -20,7 +19,6 @@ func NewHTTPServer(c *conf.Server,
 	adminArticle *service.AdminArticleService,
 	adminAd *service.AdminAdService,
 	user *service.UserService,
-	upload *service.CommonService,
 	ad *service.AdService,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
@@ -54,9 +52,11 @@ func NewHTTPServer(c *conf.Server,
 	v1.RegisterArticleHTTPServer(srv, article)
 	adminv1.RegisterAdminArticleHTTPServer(srv, adminArticle)
 	adminv1.RegisterAdminAdHTTPServer(srv, adminAd)
-	commonv1.RegisterUploadHTTPServer(srv, upload)
 	v1.RegisterUserHTTPServer(srv, user)
 	v1.RegisterAdHTTPServer(srv, ad)
 	
+	// upload 路由（走原生）
+	srv.HandleFunc("/v1/upload", UploadHandler)
+
 	return srv
 }

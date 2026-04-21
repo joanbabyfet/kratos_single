@@ -78,3 +78,5 @@ openapi.yaml
 # Mac
 .AppleDouble
 .LSOverride
+
+/uploads/*
