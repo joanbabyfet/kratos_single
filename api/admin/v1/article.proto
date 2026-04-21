@@ -12,7 +12,7 @@ service AdminArticle {
   // 新增, 推荐统一：/v1/端/模块/动作
   rpc CreateArticle (CreateArticleReq) returns (CreateArticleReply) {
     option (google.api.http) = {
-      post: "/v1/admin_api/article/add"
+      post: "/admin/article/add"
       body: "*"
     };
   }
@@ -20,7 +20,7 @@ service AdminArticle {
   // 更新
   rpc UpdateArticle (UpdateArticleReq) returns (UpdateArticleReply) {
     option (google.api.http) = {
-      post: "/v1/admin_api/article/edit"
+      post: "/admin/article/edit"
       body: "*"
     };
   }
@@ -28,21 +28,21 @@ service AdminArticle {
   // 详情
   rpc GetArticle (GetArticleReq) returns (GetArticleReply) {
     option (google.api.http) = {
-      get: "/v1/admin_api/article/detail"
+      get: "/admin/article/detail"
     };
   }
 
   // 列表（分页）
   rpc GetArticleList (GetArticleListReq) returns (GetArticleListReply) {
     option (google.api.http) = {
-      get: "/v1/admin_api/article"
+      get: "/admin/article"
     };
   }
 
   // 删除（软删除）
   rpc DeleteArticle (DeleteArticleReq) returns (DeleteArticleReply) {
     option (google.api.http) = {
-      post: "/v1/admin_api/article/delete"
+      post: "/admin/article/delete"
       body: "*"
     };
   }

@@ -27,6 +27,13 @@ func GetUser(ctx context.Context) string {
 	return "0"
 }
 
+func GetRole(ctx context.Context) string {
+	if v, ok := ctx.Value(roleKey).(string); ok {
+		return v
+	}
+	return ""
+}
+
 func GetLang(ctx context.Context) string {
 	if v, ok := ctx.Value(langKey).(string); ok {
 		return v

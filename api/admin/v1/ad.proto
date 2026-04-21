@@ -1,0 +1,131 @@
+syntax = "proto3";
+
+package api.admin.v1;
+
+option go_package = "kratos_single/api/admin/v1;adminv1";
+
+import "google/api/annotations.proto";
+
+// ==================== Service ====================
+service AdminAd {
+
+  // 新增, 推荐统一：/v1/端/模块/动作
+  rpc CreateAd (CreateAdReq) returns (CreateAdReply) {
+    option (google.api.http) = {
+      post: "/admin/ad/add"
+      body: "*"
+    };
+  }
+
+  // 更新
+  rpc UpdateAd (UpdateAdReq) returns (UpdateAdReply) {
+    option (google.api.http) = {
+      post: "/admin/ad/edit"
+      body: "*"
+    };
+  }
+
+  // 详情
+  rpc GetAd (GetAdReq) returns (GetAdReply) {
+    option (google.api.http) = {
+      get: "/admin/ad/detail"
+    };
+  }
+
+  // 列表（分页）
+  rpc GetAdList (GetAdListReq) returns (GetAdListReply) {
+    option (google.api.http) = {
+      get: "/admin/ad"
+    };
+  }
+
+  // 删除（软删除）
+  rpc DeleteAd (DeleteAdReq) returns (DeleteAdReply) {
+    option (google.api.http) = {
+      post: "/admin/ad/delete"
+      body: "*"
+    };
+  }
+}
+
+// ==================== Create ====================
+
+message CreateAdReq {
+  int32 catid = 1;
+  string title = 2;
+  string img = 3;
+  string url = 4;
+  int32 sort = 5;
+  int32 status = 6;
+}
+
+message CreateAdReply {
+  int64 id = 1;
+}
+
+// ==================== Update ====================
+
+message UpdateAdReq {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string img = 4;
+  string url = 5;
+  int32 sort = 6;
+  int32 status = 7;
+}
+
+message UpdateAdReply {}
+
+// ==================== Detail ====================
+
+message GetAdReq {
+  int64 id = 1;
+}
+
+message GetAdReply {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string img = 4;
+  string url = 5;
+  int32 sort = 6;
+  int32 status = 7;
+  string create_user = 8;
+  string update_user = 9;
+}
+
+// ==================== List ====================
+
+message GetAdListReq {
+  string title = 1;
+  int32 catid = 2;
+  int32 status = 3;
+  int32 page = 4;
+  int32 page_size = 5;
+}
+
+message AdItem {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string img = 4;
+  string url = 5;
+  int32 sort = 6;
+  int32 status = 7;
+  string create_user = 8;
+  string update_user = 9;
+}
+
+message GetAdListReply {
+  repeated AdItem list = 1;
+  int64 total = 2;
+}
+
+// ==================== Delete ====================
+
+message DeleteAdReq {
+  int64 id = 1;
+}
+
+message DeleteAdReply {}

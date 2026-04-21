@@ -73,7 +73,7 @@ kratos_single/
 * 登录接口白名单
 * 后台接口鉴权
 
-### 内容管理（Article）
+### 内容管理（Article / Ad）
 
 * 新增文章
 * 修改文章
@@ -81,6 +81,12 @@ kratos_single/
 * 文章列表
 * 前台文章详情（缓存）
 * 后台文章详情（直查DB）
+* 新增广告
+* 修改广告
+* 删除广告
+* 广告列表
+* 前台广告详情（缓存）
+* 后台广告详情（直查DB）
 
 ### 通用能力
 
@@ -117,7 +123,7 @@ role   := auth.GetRole(ctx)
 当前单体：
 
 ```text
-user + article + admin
+user + article + ad + admin
 ```
 
 未来可拆：
@@ -125,6 +131,7 @@ user + article + admin
 ```text
 user-service
 article-service
+ad-service
 admin-service
 gateway
 ```

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package api.client.v1;
+
+option go_package = "kratos_single/api/client/v1;v1";
+
+import "google/api/annotations.proto";
+
+// ==================== Service ====================
+service Ad {
+
+  // 详情
+  rpc GetAd (GetAdReq) returns (GetAdReply) {
+    option (google.api.http) = {
+      get: "/v1/api/ad/detail"
+    };
+  }
+
+  // 首页广告列表
+  rpc GetHomeAdList (GetHomeAdListReq) returns (GetHomeAdListReply) {
+    option (google.api.http) = {
+      get: "/v1/api/home_ad"
+    };
+  }
+}
+
+// ==================== Detail ====================
+
+message GetAdReq {
+  int64 id = 1;
+}
+
+message GetAdReply {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string img = 4;
+  string url = 5;
+  int32 sort = 6;
+  int32 status = 7;
+}
+
+// ==================== Home List ====================
+
+message GetHomeAdListReq {
+  int32 catid = 1;
+  int32 limit = 2;
+}
+
+message AdItem {
+  int64 id = 1;
+  int32 catid = 2;
+  string title = 3;
+  string img = 4;
+  string url = 5;
+  int32 sort = 6;
+}
+
+message GetHomeAdListReply {
+  repeated AdItem list = 1;
+}

@@ -21,7 +21,7 @@ type CommonUsecase struct {
 	log *log.Helper
 }
 
-func NewUploadUsecase(logger log.Logger) *CommonUsecase {
+func NewCommonUsecase(logger log.Logger) *CommonUsecase {
 	return &CommonUsecase{
 		log: log.NewHelper(logger),
 	}

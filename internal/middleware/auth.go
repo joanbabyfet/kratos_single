@@ -37,8 +37,14 @@ func AuthMiddleware() middleware.Middleware {
 			token = strings.TrimSpace(token)
 			
 			// 没 token 允许匿名访问
+			// if token == "" {
+			// 	return handler(ctx, req)
+			// }
 			if token == "" {
-				return handler(ctx, req)
+				return nil, errors.Unauthorized(
+					"UNAUTHORIZED",
+					"请先登录",
+				)
 			}
 
 			// 解析 JWT

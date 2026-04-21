@@ -16,7 +16,7 @@ type CommonService struct {
 	cfg config.Config
 }
 
-func NewUploadService(uc *biz.CommonUsecase) *CommonService {
+func NewCommonService(uc *biz.CommonUsecase) *CommonService {
 	return &CommonService{
 		uc:  uc,
 	}
