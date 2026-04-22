@@ -24,7 +24,7 @@ func GetUser(ctx context.Context) string {
 	if v, ok := ctx.Value(userKey).(string); ok {
 		return v
 	}
-	return "0"
+	return ""
 }
 
 func GetRole(ctx context.Context) string {

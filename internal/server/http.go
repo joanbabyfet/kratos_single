@@ -27,16 +27,29 @@ func NewHTTPServer(c *conf.Server,
 			recovery.Recovery(), //防 panic
 			middleware.LanguageMiddleware(), //多语言中间件
 			
-			//Auth 先执行，写入 role 到 ctx, AdminAuth 再读取 role
-			//认证中间件
+			// ===============================
+			// 1. 非白名单接口先做登录认证
+			// 白名单接口自动跳过
+			// ===============================
 			selector.Server(middleware.AuthMiddleware()).
-			Match(middleware.WhiteListMatcher()). //白名单
-			Build(),
-				
-			//所有 admin 接口校验 admin 权限
+				Match(middleware.WhiteListMatcher()).
+				Build(),
+
+			// ===============================
+			// 2. 后台接口：admin 权限校验
+			// /v1/admin/*
+			// ===============================
 			selector.Server(middleware.AdminAuthMiddleware()).
-			Match(middleware.AdminMatcher()).
-			Build(),
+				Match(middleware.AdminMatcher()).
+				Build(),
+
+			// ===============================
+			// 3. 前台接口：普通用户登录校验（可选）
+			// /v1/api/*
+			// ===============================
+			selector.Server(middleware.ClientAuthMiddleware()).
+				Match(middleware.ClientMatcher()).
+				Build(),
 		),
 	}
 	if c.Http.Network != "" {
