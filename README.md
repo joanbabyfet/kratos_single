@@ -172,7 +172,7 @@ gateway
 go mod tidy
 make config
 make api
-kratos run
+kratos run 或 air
 ```
 
 ---
