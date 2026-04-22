@@ -51,6 +51,7 @@ kratos_single/
 │   ├── data/            # 数据访问层
 │   ├── server/          # http / grpc 服务注册
 │   ├── middleware/      # JWT / Auth / 日志中间件
+│   ├── job/             # cron 定时任务
 │   └── pkg/
 │       ├── auth/            # JWT / 密码 / context 用户信息
 │       ├── utils/           # 常用工具函数
