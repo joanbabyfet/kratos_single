@@ -101,6 +101,7 @@ kratos_single/
 * 错误码规范
 * 文件上传 OSS
 * 多端登录控制
+* 定时任务
 
 ---
 
@@ -159,6 +160,9 @@ gateway
 ## 启动项目
 
 ```bash
+go mod tidy
+make config
+make api
 kratos run
 ```
 
@@ -179,7 +183,6 @@ kratos run
 * RBAC 权限系统
 * 操作日志
 * 支付系统
-* 定时任务
 * 微服务版升级
 
 ---

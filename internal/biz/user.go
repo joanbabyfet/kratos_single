@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"fmt"
 	"kratos_single/internal/pkg/auth"
 	"kratos_single/internal/pkg/i18n"
 	"kratos_single/internal/pkg/utils"
@@ -181,4 +182,12 @@ func (uc *UserUsecase) Delete(ctx context.Context, id string, user string) error
 		return ErrInvalidID
 	}
 	return uc.repo.Delete(ctx, id, user)
+}
+
+// 同步用户 (脚本调用)
+func (uc *UserUsecase) SyncUser(ctx context.Context) error {
+
+	fmt.Println("执行数据库同步用户")
+
+	return nil
 }

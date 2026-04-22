@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
 
 	"kratos_single/internal/conf"
+	"kratos_single/internal/job"
 	"kratos_single/internal/pkg/i18n"
 
 	"github.com/go-kratos/kratos/v2"
@@ -34,17 +36,33 @@ func init() {
 	flag.StringVar(&flagconf, "conf", "../../configs", "config path, eg: -conf config.yaml")
 }
 
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
+//注入 cronJob
+func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.CronJob) *kratos.App {
 	return kratos.New(
 		kratos.ID(id),
 		kratos.Name(Name),
 		kratos.Version(Version),
 		kratos.Metadata(map[string]string{}),
 		kratos.Logger(logger),
+
 		kratos.Server(
 			gs,
 			hs,
 		),
+
+		// 启动前执行
+		kratos.BeforeStart(func(ctx context.Context) error {
+			log.NewHelper(logger).Info("启动 Cron Job")
+			cronJob.Start()
+			return nil
+		}),
+
+		// 停止前执行
+		kratos.BeforeStop(func(ctx context.Context) error {
+			log.NewHelper(logger).Info("停止 Cron Job")
+			cronJob.Stop()
+			return nil
+		}),
 	)
 }
 
@@ -92,14 +110,14 @@ func main() {
 		panic(err)
 	}
 
-	//启动 Kratos
+	//wire 注入（已包含 cronJob）
 	app, cleanup, err := wireApp(bc.Server, bc.Data)
 	if err != nil {
 		panic(err)
 	}
 	defer cleanup()
 
-	// start and wait for stop signal
+	// 启动
 	if err := app.Run(); err != nil {
 		panic(err)
 	}
