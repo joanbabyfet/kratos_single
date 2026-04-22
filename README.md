@@ -46,8 +46,8 @@ kratos_single/
 ├── cmd/server/          # 启动入口
 ├── configs/             # 配置文件
 ├── internal/
-│   ├── service/         # 主要业务处理层（核心）
-│   ├── biz/             # 业务规则层
+│   ├── service/         # 接口层
+│   ├── biz/             # 业务逻辑层
 │   ├── data/            # 数据访问层
 │   ├── server/          # http / grpc 服务注册
 │   ├── middleware/      # JWT / Auth / 日志中间件
