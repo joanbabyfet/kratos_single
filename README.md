@@ -99,6 +99,8 @@ kratos_single/
 * 多语言 i18n
 * 分页查询
 * 错误码规范
+* 文件上传 OSS
+* 多端登录控制
 
 ---
 
@@ -157,12 +159,7 @@ gateway
 ## 启动项目
 
 ```bash
-go mod tidy
-make config
-make api
-make wire
-make all
-./bin/server
+kratos run
 ```
 
 ---
@@ -181,10 +178,8 @@ make all
 
 * RBAC 权限系统
 * 操作日志
-* 文件上传 OSS
 * 支付系统
 * 定时任务
-* 多端登录控制
 * 微服务版升级
 
 ---
