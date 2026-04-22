@@ -26,6 +26,7 @@ func NewHTTPServer(c *conf.Server,
 		http.Middleware(
 			recovery.Recovery(), //防 panic
 			middleware.LanguageMiddleware(), //多语言中间件
+			middleware.RateLimit(), //限流
 			
 			// ===============================
 			// 1. 非白名单接口先做登录认证

@@ -111,6 +111,7 @@ kratos_single/
 * 多端登录控制
 * 定时任务
 * 支持 air 热更新
+* rate limit 限流器
 
 ---
 
