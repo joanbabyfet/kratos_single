@@ -125,7 +125,7 @@ func (s *AdminArticleService) UpdateArticle(ctx context.Context, req *adminv1.Up
 	}
 	a.UpdateUser = user 
 
-	err := s.uc.Update(ctx, &a)
+	err := s.uc.Update(ctx, &a, "")
 	if err != nil {
 		//写入日志
 		s.log.Errorw(

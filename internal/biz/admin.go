@@ -40,7 +40,7 @@ type AdminQuery struct {
 
 type AdminRepo interface {
 	Create(context.Context, *Admin) (string, error)
-	Update(context.Context, *Admin) error
+	Update(context.Context, *Admin, string) error
 	GetById(context.Context, string, bool) (*Admin, error)
 	GetByUsername(context.Context, string) (*Admin, error)
 	List(context.Context, *AdminQuery) ([]*Admin, int64, error)
@@ -107,12 +107,12 @@ func (uc *AdminUsecase) Create(ctx context.Context, a *Admin) (string, error) {
 	return uc.repo.Create(ctx, a)
 }
 
-// 修改
-func (uc *AdminUsecase) Update(ctx context.Context, a *Admin) error {
+// 修改（可选：普通更新 / FOR UPDATE / SHARE MODE）
+func (uc *AdminUsecase) Update(ctx context.Context, a *Admin, lockMode string) error {
 	if a.Id == "" {
 		return ErrInvalidID
 	}
-	return uc.repo.Update(ctx, a)
+	return uc.repo.Update(ctx, a, "")
 }
 
 func (uc *AdminUsecase) SetPassword(ctx context.Context, id string, oldPwd string, newPwd string) error {

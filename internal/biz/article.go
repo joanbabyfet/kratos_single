@@ -34,7 +34,7 @@ type ArticleQuery struct {
 
 type ArticleRepo interface {
 	Create(context.Context, *Article) (int64, error)
-	Update(context.Context, *Article) error
+	Update(context.Context, *Article, string) error
 	GetById(context.Context, int64, bool) (*Article, error)
 	List(context.Context, *ArticleQuery) ([]*Article, int64, error)
 	Delete(context.Context, int64, string) error
@@ -56,12 +56,12 @@ func (uc *ArticleUsecase) Create(ctx context.Context, a *Article) (int64, error)
 	return uc.repo.Create(ctx, a)
 }
 
-// 修改
-func (uc *ArticleUsecase) Update(ctx context.Context, a *Article) error {
+// 修改（可选：普通更新 / FOR UPDATE / SHARE MODE）
+func (uc *ArticleUsecase) Update(ctx context.Context, a *Article, lockMode string) error {
 	if a.Id == 0 {
 		return ErrInvalidID
 	}
-	return uc.repo.Update(ctx, a)
+	return uc.repo.Update(ctx, a, "")
 }
 
 // 获取详情(走缓存)

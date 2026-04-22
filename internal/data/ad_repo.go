@@ -16,6 +16,7 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type AdRepo struct {
@@ -177,7 +178,7 @@ func (r *AdRepo) Create(ctx context.Context, a *biz.Ad) (int64, error) {
 }
 
 // 修改, 一律删除缓存（统一处理）
-func (r *AdRepo) Update(ctx context.Context, a *biz.Ad) error {
+func (r *AdRepo) Update(ctx context.Context, a *biz.Ad, lockMode string) error {
 	key := KeyAdDetail(int64(a.Id))
 
 	update := map[string]interface{}{
@@ -193,8 +194,46 @@ func (r *AdRepo) Update(ctx context.Context, a *biz.Ad) error {
 
 	//先更新数据库（事务）
 	err := r.data.WithTx(ctx, func(tx *gorm.DB) error {
-		return tx.Model(&model.Ad{}).
+		// ===============================
+		// 无锁更新
+		// ===============================
+		if lockMode == "" {
+			return tx.Model(&model.Ad{}).
+				Where("id = ? AND delete_time = 0", a.Id).
+				Updates(update).Error
+		}
+
+		var ad model.Ad
+		db := tx
+
+		// ===============================
+		// FOR UPDATE
+		// ===============================
+		if lockMode == "update" {
+			db = db.Clauses(clause.Locking{
+				Strength: "UPDATE",
+			})
+		}
+
+		// ===============================
+		// SHARE MODE
+		// MySQL8 = FOR SHARE
+		// ===============================
+		if lockMode == "share" {
+			db = db.Clauses(clause.Locking{
+				Strength: "SHARE",
+			})
+		}
+
+		// 先锁记录
+		if err := db.
 			Where("id = ? AND delete_time = 0", a.Id).
+			First(&ad).Error; err != nil {
+			return err
+		}
+
+		// 再更新
+		return tx.Model(&ad).
 			Updates(update).Error
 	})
 

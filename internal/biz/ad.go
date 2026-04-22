@@ -31,7 +31,7 @@ type AdQuery struct {
 
 type AdRepo interface {
 	Create(context.Context, *Ad) (int64, error)
-	Update(context.Context, *Ad) error
+	Update(context.Context, *Ad, string) error
 	GetById(context.Context, int64, bool) (*Ad, error)
 	List(context.Context, *AdQuery) ([]*Ad, int64, error)
 	Delete(context.Context, int64, string) error
@@ -53,12 +53,12 @@ func (uc *AdUsecase) Create(ctx context.Context, a *Ad) (int64, error) {
 	return uc.repo.Create(ctx, a)
 }
 
-// 修改
-func (uc *AdUsecase) Update(ctx context.Context, a *Ad) error {
+// 修改（可选：普通更新 / FOR UPDATE / SHARE MODE）
+func (uc *AdUsecase) Update(ctx context.Context, a *Ad, lockMode string) error {
 	if a.Id == 0 {
 		return ErrInvalidID
 	}
-	return uc.repo.Update(ctx, a)
+	return uc.repo.Update(ctx, a, "")
 }
 
 // 获取详情(走缓存)

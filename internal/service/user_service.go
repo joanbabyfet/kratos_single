@@ -139,7 +139,7 @@ func (s *UserService) UpdateProfile(ctx context.Context, req *v1.UpdateProfileRe
 	uid := auth.GetUser(ctx)
 	u.Id = uid
 
-	err := s.uc.Update(ctx, &u)
+	err := s.uc.Update(ctx, &u, "update")
 	if err != nil {
 		s.log.Errorw(
 			"msg", "修改用户资料失败",
