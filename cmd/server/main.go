@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"kratos_single/internal/conf"
 	"kratos_single/internal/job"
@@ -90,7 +91,11 @@ func main() {
 	fmt.Println("当前环境:", env)
 	fmt.Println("当前目录:", wd)
 
-	configPath := fmt.Sprintf("../../configs/config.%s.yaml", env)
+	configPath := filepath.Join(
+		wd,
+		"configs",
+		fmt.Sprintf("config.%s.yaml", env),
+	)
 	fmt.Println("配置路径:", configPath)
 
 	c := config.New(

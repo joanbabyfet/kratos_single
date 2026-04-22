@@ -3,6 +3,8 @@ package i18n
 import (
 	"encoding/json"
 	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"golang.org/x/text/language"
@@ -14,12 +16,17 @@ func InitI18n() {
 	bundle = i18n.NewBundle(language.Chinese)
 	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 
-	_, err := bundle.LoadMessageFile("../../configs/lang/zh.json")
+	//Linux / Mac / Windows 都可用
+	wd, _ := os.Getwd()
+	path := filepath.Join(wd, "configs", "lang", "zh.json")
+
+	_, err := bundle.LoadMessageFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = bundle.LoadMessageFile("../../configs/lang/en.json")
+	path = filepath.Join(wd, "configs", "lang", "en.json")
+	_, err = bundle.LoadMessageFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
