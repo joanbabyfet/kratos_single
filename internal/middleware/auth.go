@@ -65,6 +65,14 @@ func AuthMiddleware() middleware.Middleware {
 					"登录已过期",
 				)
 			}
+
+			// exists, _ := rdb.Exists("jwt:blacklist:" + token).Result()
+			// if exists > 0 {
+			// 	return nil, errors.Unauthorized(
+			// 		"UNAUTHORIZED",
+			// 		"token已失效",
+			// 	)
+			// }
 			
 			// 写入 ctx（后续 service/biz 可直接取）
 			ctx = auth.SetUser(ctx, payload.UserID)

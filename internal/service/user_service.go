@@ -5,8 +5,11 @@ import (
 	v1 "kratos_single/api/client/v1"
 	"kratos_single/internal/biz"
 	"kratos_single/internal/pkg/auth"
+	"strings"
 
+	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/metadata"
 	"github.com/jinzhu/copier"
 )
 
@@ -52,6 +55,48 @@ func (s *UserService) Login(ctx context.Context, req *v1.LoginReq) (*v1.LoginRep
 	res.Token = token
 
 	return &res, nil
+}
+
+// 登出
+func (s *UserService) Logout(ctx context.Context, req *v1.LogoutReq) (*v1.LogoutReply, error) {
+
+	var token string
+
+	// HTTP Header / gRPC metadata 取 Authorization
+	if md, ok := metadata.FromServerContext(ctx); ok {
+		token = md.Get("authorization")
+	}
+
+	if token == "" {
+		return nil, errors.Unauthorized(
+			"UNAUTHORIZED",
+			"未登录",
+		)
+	}
+
+	// 去掉 Bearer
+	token = strings.TrimSpace(token)
+	token = strings.TrimPrefix(token, "Bearer ")
+	token = strings.TrimSpace(token)
+
+	if token == "" {
+		return nil, errors.Unauthorized(
+			"UNAUTHORIZED",
+			"未登录",
+		)
+	}
+
+	// 写入 Redis 黑名单
+	// err := s.rdb.Set(ctx, "jwt:blacklist:"+token, 1, 24*time.Hour).Err()
+
+	// if err != nil {
+	// 	return nil, errors.InternalServer(
+	// 		"REDIS_ERROR",
+	// 		"退出失败",
+	// 	)
+	// }
+
+	return &v1.LogoutReply{}, nil
 }
 
 // 注册

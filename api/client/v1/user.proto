@@ -23,6 +23,14 @@ service User {
     };
   };
 
+  // 登出
+  rpc Logout (LogoutReq) returns (LogoutReply) {
+    option (google.api.http) = {
+      post: "/v1/api/logout"
+      body: "*"
+    };
+  };
+
   // 个人资料修改
   rpc UpdateProfile (UpdateProfileReq) returns (UpdateProfileReply) {
     option (google.api.http) = {
@@ -95,6 +103,12 @@ message LoginReply {
   int32 status = 18;
   int32 create_time = 19;
 }
+
+// ==================== Logout ====================
+
+message LogoutReq {}
+
+message LogoutReply {}
 
 // ==================== UpdateProfile ====================
 
