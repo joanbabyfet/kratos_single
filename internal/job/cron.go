@@ -3,7 +3,14 @@ package job
 import (
 	"log"
 
+	"github.com/google/wire"
 	"github.com/robfig/cron/v3"
+)
+
+var ProviderSet = wire.NewSet(
+	NewUserJob,
+	NewArticleJob,
+	NewCronJob,
 )
 
 type CronJob struct {
