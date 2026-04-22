@@ -8,6 +8,7 @@ import (
 	"kratos_single/internal/biz"
 )
 
+//共享同一套 biz/data
 type UserJob struct {
 	uc *biz.UserUsecase
 }

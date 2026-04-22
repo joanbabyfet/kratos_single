@@ -4,6 +4,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 )
 
+//共享同一套 biz/data
 type ArticleJob struct {
 }
 
