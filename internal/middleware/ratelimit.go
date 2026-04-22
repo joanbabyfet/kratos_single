@@ -8,9 +8,15 @@ import (
 	"golang.org/x/time/rate"
 )
 
+// 每秒 5 次，桶容量 10 (平均每秒允许 5 次请求，最多可瞬间突发 10 次请求)
 func RateLimit() middleware.Middleware {
-	// 每秒 10 次，桶容量 20 (平均每秒允许 10 次请求，最多可瞬间突发 20 次请求)
-	limiter := rate.NewLimiter(10, 20)
+	
+	//登录接口 rate.NewLimiter(1, 3)
+	//后台API rate.NewLimiter(5, 10)
+	//搜索接口 rate.NewLimiter(10, 20)
+	//上传接口 rate.NewLimiter(1, 2)
+	//内部服务调用（微服务）rate.NewLimiter(50, 100)
+	limiter := rate.NewLimiter(5, 10)
 
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req interface{}) (interface{}, error) {
