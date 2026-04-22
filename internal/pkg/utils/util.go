@@ -6,6 +6,8 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"time"
 
 	mrand "math/rand"
@@ -88,4 +90,22 @@ func GenFileName(ext string) string {
 
 	hash := md5.Sum([]byte(time.Now().Format("20060102150405") + randNum))
 	return fmt.Sprintf("%x", hash) + ext
+}
+
+//获取项目根目录, 使用 air / kratos run 都不报错
+func RootPath() string {
+	dir, _ := os.Getwd()
+
+	for {
+		// 找 go.mod 代表项目根目录
+		if _, err := os.Stat(filepath.Join(dir, "go.mod")); err == nil {
+			return dir
+		}
+
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			return "."
+		}
+		dir = parent
+	}
 }

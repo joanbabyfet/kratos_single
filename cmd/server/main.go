@@ -10,6 +10,7 @@ import (
 	"kratos_single/internal/conf"
 	"kratos_single/internal/job"
 	"kratos_single/internal/pkg/i18n"
+	"kratos_single/internal/pkg/utils"
 
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
@@ -87,12 +88,12 @@ func main() {
 	if env == "" {
 		env = "dev"
 	}
-	wd, _ := os.Getwd()
+	root := utils.RootPath()
 	fmt.Println("当前环境:", env)
-	fmt.Println("当前目录:", wd)
+	fmt.Println("当前目录:", root)
 
 	configPath := filepath.Join(
-		wd,
+		root,
 		"configs",
 		fmt.Sprintf("config.%s.yaml", env),
 	)
