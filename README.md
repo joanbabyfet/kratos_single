@@ -165,6 +165,7 @@ gateway
 * JWT
 * Wire
 * Protobuf
+* etcd
 
 ---
 
