@@ -16,7 +16,11 @@ data:
     db: 9
     read_timeout: 0.2s
     write_timeout: 0.2s
-file:
-  upload_dir: ./uploads
-  file_url: http://localhost:8000/static
-  upload_max_size: 5
+  file:
+    upload_dir: ./uploads
+    file_url: http://localhost:8000/static
+    upload_max_size: 5
+  etcd:
+    endpoints:
+      - 127.0.0.1:2379
+    dial_timeout: 5s

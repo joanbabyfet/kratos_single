@@ -13,7 +13,15 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewRedisClient, NewArticleRepo, NewUserRepo, NewAdRepo, NewAdminRepo)
+var ProviderSet = wire.NewSet(
+	NewData, 
+	NewUserRepo,
+	NewAdminRepo,
+	NewAdRepo,
+	NewArticleRepo,
+	NewRedisClient, 
+	NewEtcdClient, //这表示已经交给 Google Wire 管理依赖
+)
 
 // Data .
 type Data struct {

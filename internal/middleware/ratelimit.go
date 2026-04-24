@@ -8,7 +8,7 @@ import (
 	"golang.org/x/time/rate"
 )
 
-// 每秒 5 次，桶容量 10 (平均每秒允许 5 次请求，最多可瞬间突发 10 次请求)
+// 限流器, 每秒 5 次，桶容量 10 (平均每秒允许 5 次请求，最多可瞬间突发 10 次请求)
 func RateLimit() middleware.Middleware {
 	
 	//登录接口 rate.NewLimiter(1, 3)
