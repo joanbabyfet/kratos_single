@@ -113,6 +113,7 @@ kratos_single/
 * 支持 air 热更新
 * rate limit 限流器
 * 结合 etcd 服务注册与服务发现
+* 使用 docker 把 MySQL + Redis + etcd 打包成可运行环境
 
 ---
 
@@ -166,6 +167,7 @@ gateway
 * Wire
 * Protobuf
 * etcd
+* docker
 
 ---
 

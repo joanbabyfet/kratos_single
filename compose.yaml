@@ -1,0 +1,44 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: example
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: admin888
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: redis7
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --appendonly yes
+
+  etcd:
+    image: quay.io/coreos/etcd:v3.6.10
+    container_name: etcd
+    restart: unless-stopped
+    volumes:
+      - ./data/etcd:/etcd-data
+    command: >
+      /usr/local/bin/etcd
+      --name=node1
+      --data-dir=/etcd-data
+      --listen-client-urls=http://0.0.0.0:2379
+      --advertise-client-urls=http://127.0.0.1:2379
+      --listen-peer-urls=http://0.0.0.0:2380
+      --initial-advertise-peer-urls=http://127.0.0.1:2380
+      --initial-cluster=node1=http://127.0.0.1:2380
+      --initial-cluster-state=new
+    ports:
+      - "2379:2379"
+      - "2380:2380"
