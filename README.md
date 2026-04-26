@@ -179,6 +179,7 @@ gateway
 go mod tidy
 make config
 make api
+wire ./cmd/server
 kratos run 或 air
 ```
 
