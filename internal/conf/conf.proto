@@ -43,7 +43,11 @@ message Data {
     repeated string endpoints = 1;
     google.protobuf.Duration dial_timeout = 2;
   }
+  message Rabbitmq {
+    string url = 1;
+  }
   Database database = 1;
   Redis redis = 2;
   Etcd etcd = 3;
+  Rabbitmq rabbitmq = 4;
 }

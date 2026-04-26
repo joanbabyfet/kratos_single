@@ -114,6 +114,7 @@ kratos_single/
 * rate limit 限流器
 * 结合 etcd 服务注册与服务发现
 * 使用 docker 把 MySQL + Redis + etcd 打包成可运行环境
+* 结合 RabbitMQ 异步消息中间件, 负责异步任务 / 解耦 / 排队
 
 ---
 
@@ -168,6 +169,7 @@ gateway
 * Protobuf
 * etcd
 * docker
+* RabbitMQ
 
 ---
 

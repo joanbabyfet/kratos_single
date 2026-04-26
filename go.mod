@@ -48,6 +48,7 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/nicksnyder/go-i18n/v2 v2.4.0
+	github.com/rabbitmq/amqp091-go v1.11.0
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/robfig/cron/v3 v3.0.1
 	go.etcd.io/etcd/client/v3 v3.6.0-alpha.0

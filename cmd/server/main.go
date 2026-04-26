@@ -7,7 +7,9 @@ import (
 	"os"
 	"path/filepath"
 
+	"kratos_single/internal/biz"
 	"kratos_single/internal/conf"
+	"kratos_single/internal/data"
 	"kratos_single/internal/job"
 	"kratos_single/internal/pkg/i18n"
 	"kratos_single/internal/pkg/utils"
@@ -41,7 +43,7 @@ func init() {
 }
 
 //注入 cronJob
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.CronJob, cli *clientv3.Client) *kratos.App {
+func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.CronJob, cli *clientv3.Client, mq *data.MQ) *kratos.App {
 	
 	// 确认 etcd client 已建立
 	reg := etcd.New(cli)
@@ -60,17 +62,43 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.Cr
 			hs,
 		),
 
-		// 启动前执行
+		// 启动前
 		kratos.BeforeStart(func(ctx context.Context) error {
-			log.NewHelper(logger).Info("启动 Cron Job")
+
+			log.NewHelper(logger).Info("连接 etcd 成功")
+
+			// cron
 			cronJob.Start()
+			log.NewHelper(logger).Info("Cron Job 已启动")
+
+			// 2. 启动 RabbitMQ Consumer
+			err := mq.Consume("test_queue")
+			if err != nil {
+				return err
+			}
+			log.NewHelper(logger).Info("RabbitMQ Consumer 已启动")
+
+			// 3. 发送测试消息（上线可删）
+			usecase := biz.NewMQUsecase(mq)
+
+			err = usecase.SendWelcomeMessage(ctx, 1001)
+			if err != nil {
+				return err
+			}
+
+			log.NewHelper(logger).Info("测试消息已发送")
+
 			return nil
 		}),
 
-		// 停止前执行
+		// 停止前
 		kratos.BeforeStop(func(ctx context.Context) error {
 			log.NewHelper(logger).Info("停止 Cron Job")
 			cronJob.Stop()
+
+			log.NewHelper(logger).Info("关闭 RabbitMQ")
+			mq.Close()
+
 			return nil
 		}),
 	)

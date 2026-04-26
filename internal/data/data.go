@@ -21,6 +21,7 @@ var ProviderSet = wire.NewSet(
 	NewArticleRepo,
 	NewRedisClient, 
 	NewEtcdClient, //这表示已经交给 Google Wire 管理依赖
+	NewMQ,
 )
 
 // Data .

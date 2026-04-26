@@ -42,3 +42,16 @@ services:
     ports:
       - "2379:2379"
       - "2380:2380"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 123456
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq

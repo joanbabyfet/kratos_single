@@ -24,3 +24,5 @@ data:
     endpoints:
       - 127.0.0.1:2379
     dial_timeout: 5s
+  rabbitmq:
+    url: amqp://admin:123456@localhost:5672/

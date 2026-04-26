@@ -59,7 +59,9 @@ type UserUsecase struct {
 }
 
 func NewUserUsecase(repo UserRepo) *UserUsecase {
-	return &UserUsecase{repo: repo}
+	return &UserUsecase{
+		repo: repo,
+	}
 }
 
 func (uc *UserUsecase) Login(ctx context.Context, username string, password string, ip string) (*User, error) {
