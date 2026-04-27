@@ -46,8 +46,16 @@ message Data {
   message Rabbitmq {
     string url = 1;
   }
+  message Mail {
+    string host = 1;
+    int32 port = 2;
+    string user = 3;
+    string password = 4;
+    string from = 5;
+  }
   Database database = 1;
   Redis redis = 2;
   Etcd etcd = 3;
   Rabbitmq rabbitmq = 4;
+  Mail mail = 5;
 }

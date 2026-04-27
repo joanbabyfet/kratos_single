@@ -26,3 +26,9 @@ data:
     dial_timeout: 5s
   rabbitmq:
     url: amqp://admin:123456@localhost:5672/
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    user: your@gmail.com
+    password: 123456
+    from: your@gmail.com

@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"kratos_single/internal/biz"
 	"kratos_single/internal/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -22,6 +23,8 @@ var ProviderSet = wire.NewSet(
 	NewRedisClient, 
 	NewEtcdClient, //这表示已经交给 Google Wire 管理依赖
 	NewMQ,
+	NewMailRepo,
+	wire.Bind(new(biz.MailRepo), new(*MailRepo)), //手动绑定, 避免报错
 )
 
 // Data .

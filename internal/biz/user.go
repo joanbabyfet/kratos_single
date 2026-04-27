@@ -56,11 +56,13 @@ type UserRepo interface {
 
 type UserUsecase struct {
 	repo UserRepo
+	mailRepo MailRepo
 }
 
-func NewUserUsecase(repo UserRepo) *UserUsecase {
+func NewUserUsecase(repo UserRepo, mailRepo MailRepo) *UserUsecase {
 	return &UserUsecase{
 		repo: repo,
+		mailRepo: mailRepo,
 	}
 }
 
@@ -115,7 +117,19 @@ func (uc *UserUsecase) Create(ctx context.Context, a *User) (string, error) {
 	a.Language = "cn"
 	a.Password = hash
 
-	return uc.repo.Create(ctx, a)
+	//创建用户
+	id, err := uc.repo.Create(ctx, a)
+	if err != nil {
+		return "", err
+	}
+
+	//注册成功后寄欢迎信
+	err = uc.mailRepo.Send(ctx, a.Email, "Welcome", "Thanks for register.")
+	if err != nil {
+		return "", err
+	}
+
+	return id, nil
 }
 
 // 修改（可选：普通更新 / FOR UPDATE / SHARE MODE）
