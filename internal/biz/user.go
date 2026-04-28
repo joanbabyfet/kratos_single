@@ -123,7 +123,7 @@ func (uc *UserUsecase) Create(ctx context.Context, a *User) (string, error) {
 		return "", err
 	}
 
-	//注册成功后寄欢迎信
+	//注册成功后寄欢迎信(放入队列)
 	err = uc.mailRepo.Send(ctx, a.Email, "Welcome", "Thanks for register.")
 	if err != nil {
 		return "", err
