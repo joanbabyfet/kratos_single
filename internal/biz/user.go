@@ -54,15 +54,21 @@ type UserRepo interface {
 	UpdateLogin(context.Context, string, string) error
 }
 
+type TelegramRepo interface {
+	Send(ctx context.Context, message string) error
+}
+
 type UserUsecase struct {
 	repo UserRepo
 	mailRepo MailRepo
+	telegramRepo TelegramRepo
 }
 
-func NewUserUsecase(repo UserRepo, mailRepo MailRepo) *UserUsecase {
+func NewUserUsecase(repo UserRepo, mailRepo MailRepo, telegramRepo TelegramRepo) *UserUsecase {
 	return &UserUsecase{
 		repo: repo,
 		mailRepo: mailRepo,
+		telegramRepo: telegramRepo,
 	}
 }
 
@@ -123,11 +129,32 @@ func (uc *UserUsecase) Create(ctx context.Context, a *User) (string, error) {
 		return "", err
 	}
 
-	//注册成功后寄欢迎信(放入队列)
-	err = uc.mailRepo.Send(ctx, a.Email, "Welcome", "Thanks for register.")
-	if err != nil {
-		return "", err
-	}
+	//通知失败 不应该让注册失败
+	//注册成功后寄欢迎信, 异步通知，不阻塞主流程
+	go func() {
+		if err := uc.mailRepo.Send(
+			context.Background(),
+			a.Email,
+			"Welcome",
+			"Thanks for register.",
+		); err != nil {
+			// log
+		}
+	}()
+
+	// 异步 Telegram
+	go func() {
+		if err := uc.telegramRepo.Send(
+			context.Background(),
+			fmt.Sprintf(
+				"新用户注册: %s (%s)",
+				a.Username,
+				a.Email,
+			),
+		); err != nil {
+			// log
+		}
+	}()
 
 	return id, nil
 }

@@ -32,3 +32,6 @@ data:
     user: your@gmail.com
     password: 123456
     from: your@gmail.com
+  telegram:
+    token: 1234567890:AAxxxxxxxxxxxxxxxxxxxx
+    chat_id: "987654321"

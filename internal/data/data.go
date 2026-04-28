@@ -25,6 +25,8 @@ var ProviderSet = wire.NewSet(
 	NewMQ,
 	NewMailRepo,
 	wire.Bind(new(biz.MailRepo), new(*MailRepo)), //手动绑定, 避免报错
+	NewTelegramRepo,
+	wire.Bind(new(biz.TelegramRepo), new(*TelegramRepo)),
 )
 
 // Data .

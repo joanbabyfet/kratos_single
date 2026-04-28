@@ -53,9 +53,14 @@ message Data {
     string password = 4;
     string from = 5;
   }
+  message Telegram {
+    string token = 1;
+    string chat_id = 2;
+  }
   Database database = 1;
   Redis redis = 2;
   Etcd etcd = 3;
   Rabbitmq rabbitmq = 4;
   Mail mail = 5;
+  Telegram telegram = 6;
 }
