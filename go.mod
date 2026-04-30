@@ -2,6 +2,8 @@ module kratos_single
 
 go 1.23.0
 
+toolchain go1.23.12
+
 require (
 	github.com/go-kratos/kratos/v2 v2.9.2
 	github.com/google/wire v0.6.0

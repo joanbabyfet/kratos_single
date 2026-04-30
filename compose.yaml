@@ -34,10 +34,10 @@ services:
       --name=node1
       --data-dir=/etcd-data
       --listen-client-urls=http://0.0.0.0:2379
-      --advertise-client-urls=http://127.0.0.1:2379
+      --advertise-client-urls=http://etcd:2379
       --listen-peer-urls=http://0.0.0.0:2380
-      --initial-advertise-peer-urls=http://127.0.0.1:2380
-      --initial-cluster=node1=http://127.0.0.1:2380
+      --initial-advertise-peer-urls=http://etcd:2380
+      --initial-cluster=node1=http://etcd:2380
       --initial-cluster-state=new
     ports:
       - "2379:2379"
@@ -55,3 +55,21 @@ services:
       RABBITMQ_DEFAULT_PASS: 123456
     volumes:
       - ./data/rabbitmq:/var/lib/rabbitmq
+  kratos:
+    build: .
+    image: kratos_single:1.0
+    container_name: kratos_single
+    restart: unless-stopped
+    ports:
+      - "8010:8010"
+    volumes:
+      - ./configs:/app/configs
+    depends_on:
+      mysql:
+        condition: service_started
+      redis:
+        condition: service_started
+      etcd:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
