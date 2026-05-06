@@ -3,6 +3,7 @@ package server
 import (
 	adminv1 "kratos_single/api/admin/v1"
 	v1 "kratos_single/api/client/v1"
+	"kratos_single/internal/biz"
 	"kratos_single/internal/conf"
 	"kratos_single/internal/middleware"
 	"kratos_single/internal/service"
@@ -21,10 +22,11 @@ func NewHTTPServer(c *conf.Server,
 	user *service.UserService,
 	ad *service.AdService,
 	admin *service.AdminService,
+	rbac biz.RBAC,
 	logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
-			recovery.Recovery(), //防 panic
+			recovery.Recovery(), //防 panic (兜底)
 			middleware.LanguageMiddleware(), //多语言中间件
 			middleware.RateLimit(), //限流
 			
@@ -43,6 +45,12 @@ func NewHTTPServer(c *conf.Server,
 			selector.Server(middleware.AdminAuthMiddleware()).
 				Match(middleware.AdminMatcher()).
 				Build(),
+
+			// RBAC（加在 admin 后面）
+			// RBAC 权限控制（加在 admin 后面）
+			selector.Server(middleware.RBACMiddleware(rbac)).
+			Match(middleware.AdminMatcher()).
+			Build(),
 
 			// ===============================
 			// 3. 前台接口：普通用户登录校验（可选）

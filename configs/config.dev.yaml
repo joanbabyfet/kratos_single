@@ -3,15 +3,15 @@ server:
     addr: 0.0.0.0:8010
     timeout: 1s
   grpc:
-    addr: 0.0.0.0:9000
+    addr: 0.0.0.0:9010
     timeout: 1s
 data:
   database:
     driver: mysql
-    source: root:root@tcp(mysql:3306)/example?parseTime=True&loc=Local
+    source: root:root@tcp(127.0.0.1:3306)/example?parseTime=True&loc=Local
     prefix: kk_   #表前缀
   redis:
-    addr: redis:6379
+    addr: 127.0.0.1:6379
     password: ""
     db: 9
     read_timeout: 0.2s
@@ -22,10 +22,10 @@ data:
     upload_max_size: 5
   etcd:
     endpoints:
-      - etcd:2379
+      - 127.0.0.1:2379
     dial_timeout: 5s
   rabbitmq:
-    url: amqp://admin:123456@rabbitmq:5672/
+    url: amqp://admin:123456@127.0.0.1:5672/
   mail:
     host: smtp.gmail.com
     port: 587

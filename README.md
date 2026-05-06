@@ -117,6 +117,7 @@ kratos_single/
 * 结合 RabbitMQ 异步消息中间件, 负责异步任务 / 解耦 / 排队
 * 发送邮件
 * 发送 telegram 通知
+* RBAC 权限功能
 
 ---
 
@@ -199,7 +200,6 @@ kratos run 或 air
 
 ## 后续规划
 
-* RBAC 权限系统
 * 操作日志
 * 支付系统
 * 微服务版升级
