@@ -11,7 +11,7 @@ import (
 	"github.com/go-kratos/kratos/v2/transport"
 )
 
-//权限映射表
+//权限映射表(写死) 这里为准再同步到表
 var permMap = map[string]string{
 	"/api.admin.v1.AdminArticle/CreateArticle": "article:create",
 	"/api.admin.v1.AdminArticle/UpdateArticle": "article:update",
@@ -25,9 +25,11 @@ func RBACMiddleware(rbac biz.RBAC) middleware.Middleware {
 			if !ok {
 				return handler(ctx, req)
 			}
-
+			
+			//路径示例 /api.admin.v1.AdminArticle/CreateArticle
 			path := tr.Operation()
-
+			
+			//获取权限标识
 			perm, ok := permMap[path]
 			if !ok {
 				return handler(ctx, req)

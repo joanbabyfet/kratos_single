@@ -113,11 +113,12 @@ kratos_single/
 * 支持 air 热更新
 * rate limit 限流器
 * 结合 etcd 服务注册与服务发现
-* 使用 docker 把 MySQL + Redis + etcd 打包成可运行环境
+* 使用 docker 把 nginx + mySQL + redis + etcd 打包成可运行环境
 * 结合 RabbitMQ 异步消息中间件, 负责异步任务 / 解耦 / 排队
 * 发送邮件
 * 发送 telegram 通知
 * RBAC 权限功能
+* 通过 docker 添加 nginx 反向代理
 
 ---
 
