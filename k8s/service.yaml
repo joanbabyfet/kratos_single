@@ -1,0 +1,21 @@
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kratos-single
+spec:
+  selector:
+    app: kratos-single
+
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      nodePort: 30080
+
+    - name: grpc
+      port: 9000
+      targetPort: 9000
+      nodePort: 30090
+  type: NodePort

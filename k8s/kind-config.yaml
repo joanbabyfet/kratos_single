@@ -1,0 +1,12 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+nodes:
+  - role: control-plane
+
+    extraPortMappings:        # 创建 kind 集群时把 node 容器端口映射到 Mac 主机
+      - containerPort: 30080
+        hostPort: 30080
+
+      - containerPort: 30090
+        hostPort: 30090

@@ -18,7 +18,7 @@ COPY --from=builder /src/configs /app/configs
 
 WORKDIR /app
 
-EXPOSE 8010
+EXPOSE 8000
 EXPOSE 9000
 VOLUME /data/conf
 

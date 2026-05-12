@@ -119,6 +119,7 @@ kratos_single/
 * 发送 telegram 通知
 * RBAC 权限功能
 * 通过 docker 添加 nginx 反向代理
+* 结合 k8s  
 
 ---
 

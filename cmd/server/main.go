@@ -21,7 +21,6 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
 
-	"github.com/go-kratos/kratos/contrib/registry/etcd/v2"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	_ "go.uber.org/automaxprocs"
 )
@@ -46,7 +45,7 @@ func init() {
 func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.CronJob, cli *clientv3.Client, mq *data.MQ) *kratos.App {
 	
 	// 确认 etcd client 已建立
-	reg := etcd.New(cli)
+	//reg := etcd.New(cli)
 	log.NewHelper(logger).Info("连接 etcd 成功")
 
 	return kratos.New(
@@ -55,7 +54,7 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.Cr
 		kratos.Version(Version),
 		kratos.Metadata(map[string]string{}),
 		kratos.Logger(logger),
-		kratos.Registrar(reg), // 注册到 etcd
+		//kratos.Registrar(reg), // 注册到 etcd
 
 		kratos.Server(
 			gs,
@@ -65,7 +64,7 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, cronJob *job.Cr
 		// 启动前
 		kratos.BeforeStart(func(ctx context.Context) error {
 
-			log.NewHelper(logger).Info("连接 etcd 成功")
+			//log.NewHelper(logger).Info("连接 etcd 成功")
 
 			// cron
 			cronJob.Start()
